@@ -1,0 +1,22 @@
+
+<body>
+<h1> {{ title }}</h1>
+<form>
+    UserName:<br>
+    <input type="text" placeholder="username" name="username" ng-model="user.username">
+    <br>
+    Password:<br>
+    <input type="text" placeholder="password" name="password" ng-model="user.password">
+    <br>
+    FullName:<br>
+    <input type="text" placeholder="fullname" name="fullname" ng-model="user.fullname">
+    <br>
+    Role:<br>
+    <input type="radio" name="teacher" value="teacher" checked>Teacher
+    <br>
+    <input type="radio" name="student" value="student">Student<br>
+    <br>
+    <input type="submit" value="Submit" ng-submit="submit()">
+</form>
+<ul><li><a href="#/teacher"> back </a></li></ul>
+</body>
