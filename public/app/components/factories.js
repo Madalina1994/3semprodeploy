@@ -42,13 +42,13 @@ angular.module('myAppRename.factories', [])
             return $http.get(url + "/" + "allClasses");
         }
         api.getClassById = function (id) {                              //check path
-            return $http.get(url + "/" + "getClasses", id);
+            return $http.get('/userApi' + "/" + "Class/"+id);
         }
         return api;
     })
 
     .factory('CompletedTaskFactory', function ($http) {
-        var url = "/teacherApi";
+        var url = "/adminApi";
         var api = {};
 
         api.addCompletedTask = function (newCompletedTask) {
@@ -67,7 +67,7 @@ angular.module('myAppRename.factories', [])
     })
 
     .factory('PeriodFactory', function ($http) {
-        var url = "/teacherApi";
+        var url = "/adminApi";
         var api = {};
         api.addPeriod = function (newPeriod) {
             return $http.post(url + "/" + "period", newPeriod);
@@ -82,7 +82,7 @@ angular.module('myAppRename.factories', [])
     })
 
     .factory('SemesterFactory', function ($http) {
-        var url = "/teacherApi";
+        var url = "/adminApi";
         var api = {};
         api.addOneSemester = function (newSemester) {
             return $http.post(url + "/" + "semester", newSemester);
@@ -97,7 +97,7 @@ angular.module('myAppRename.factories', [])
     })
 
     .factory('StudentsFactory', function ($http) {
-        var url = "/teacherApi";
+        var url = "/adminApi";
         var api = {};
         api.addStudent = function (newStudent) {
             return $http.post(url + "/" + "oneStudent", newStudent);
@@ -106,13 +106,13 @@ angular.module('myAppRename.factories', [])
             return $http.get(url + "/" + "students/" + classId);
         }
         api.getStudentByUserName = function (studentName) {               //check route
-            return $http.get(url + "/" + "student/" + studentName);
+            return $http.get('/userApi' + "/" + "studentByUserName" + "/" + studentName);
         }
         return api;
     })
 
     .factory('TaskFactory', function ($http) {
-        var url = "/teacherApi";
+        var url = "/adminApi";
         var api = {};
         api.addTask = function (newTask) {
             return $http.post(url + "/" + "task", newTask);
@@ -127,7 +127,7 @@ angular.module('myAppRename.factories', [])
     })
 
     .factory('TeachersFactory', function ($http) {
-        var url = "/teacherApi";
+        var url = "/adminApi";
         var api = {};
         api.addTeacher = function (newTeacher) {
             return $http.post(url + "/" + "oneTeacher", newTeacher);

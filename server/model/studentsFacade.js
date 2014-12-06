@@ -4,7 +4,7 @@ var Student = mongoose.model('Student');
 
 
 function getStudentByUserName(studentUserName, callback) {
-    Student.find({userName: studentUserName}, function (err, studentByUserName) {
+    Student.find({username: studentUserName}, function (err, studentByUserName) {
         if (err) {
             return callback(err);
         }

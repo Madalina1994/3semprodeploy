@@ -1,5 +1,30 @@
-
 <body>
 <h1> {{ title }}</h1>
-<ul><li><a href="#/student"> back </a></li></ul>
+
+<label>Username</label>
+<input type="text" ng-model="student">
+<button class="btn btn-default" ng-click="getStudentByUserName()">See your object</button>
+<p>{{wholeStudent}}</p>
+
+<label>Class id</label>
+<input type="text" ng-model="classId">
+<button class="btn btn-default" ng-click="getClassById()">See your class</button>
+<table class="table">
+    <thead>
+    <th>Class name</th>
+    <th>Description</th>
+    <th>Start time</th>
+    <th>End time</th>
+    </thead>
+    <tbody>
+    <tr ng-repeat="myclass in class">
+        <th>{{myclass.name}}</th>
+        <th>{{myclass.description}}</th>
+        <th>{{myclass.startTime}}</th>
+        <th>{{myclass.endTime}}</th>
+    </tr>
+    </tbody>
+</table>
+
+<a href="#/student"> back </a>
 </body>

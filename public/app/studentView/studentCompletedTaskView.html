@@ -1,0 +1,25 @@
+
+<body>
+<h1> {{ title }}</h1>
+
+<label>Student id</label>
+<input type="text" ng-model="studentId">
+<button class="btn btn-default" ng-click="getAllCompletedTasksForASpecificStudent()">See your completed tasks</button>
+
+<table class="table">
+    <thead>
+    <th>Task id</th>
+    <th>Received points</th>
+    <th>Comment</th>
+    </thead>
+    <tbody>
+    <tr ng-repeat="completedTask in completedTasks">
+        <th>{{completedTask.taskId}}</th>
+        <th>{{completedTask.receivedPoints}}</th>
+        <th>{{completedTask.comment}}</th>
+    </tr>
+    </tbody>
+</table>
+
+<a href="#/student"> back </a>
+</body>
