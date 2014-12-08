@@ -1,0 +1,25 @@
+<body>
+<h1> {{ title }}</h1>
+<h4>{{error}}</h4>
+
+<table class="table">
+    <thead>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Maximum score</th>
+    <th>Start time</th>
+    <th>End time</th>
+    </thead>
+    <tbody>
+    <tr ng-repeat="task in tasks">
+        <th><a href="#/teacher/viewCompletedTasks/{{task._id}}">{{task.name}}</a></th>
+        <th>{{task.description}}</th>
+        <th>{{task.maximumPoints}}</th>
+        <th>{{task.startTime}}</th>
+        <th>{{task.endTime}}</th>
+    </tr>
+    </tbody>
+</table>
+
+<a href="#/teacher"> back </a>
+</body>

@@ -1,0 +1,26 @@
+<body>
+<h1> {{ title }}</h1>
+<h4>{{error}}</h4>
+
+<table class="table">
+    <thead>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Maximum score</th>
+    <th>Start time</th>
+    <th>End time</th>
+    </thead>
+    <tbody>
+    <tr ng-repeat="period in periods">
+        <th><a href="#/teacher/viewTasks/{{period._id}}">{{period.name}}</a></th>
+        <th>{{period.description}}</th>
+        <th>{{period.maximumPoints}}</th>
+        <th>{{period.startTime}}</th>
+        <th>{{period.endTime}}</th>
+    </tr>
+    </tbody>
+</table>
+
+
+<a href="#/teacher"> back </a>
+</body>

@@ -73,7 +73,7 @@ angular.module('myAppRename.factories', [])
             return $http.post(url + "/" + "period", newPeriod);
         }
         api.getAllPeriodsBySemesterId = function (semesterId) {
-            return $http.get(url + "/" + "allPeriodsBySemesterId" + "/" + semesterId);
+            return $http.get(url + "/" + "periodsBySemester" + "/" + semesterId);
         }
         api.getPeriodById = function (periodId) {                  //check route
             return $http.get(url + "/" + "periodById" + "/" + periodId);
@@ -88,7 +88,7 @@ angular.module('myAppRename.factories', [])
             return $http.post(url + "/" + "semester", newSemester);
         }
         api.getAllSemestersByClassId = function (classId) {               //check route
-            return $http.get(url + "/" + classId);
+            return $http.get(url + "/" + 'allSemestersByClass' + '/' + classId);
         }
         api.getSemesterById = function (semesterId) {                     //check route
             return $http.get(url + "/" + semesterId);
@@ -130,7 +130,7 @@ angular.module('myAppRename.factories', [])
         var url = "/adminApi";
         var api = {};
         api.addTeacher = function (newTeacher) {
-            return $http.post(url + "/" + "oneTeacher", newTeacher);
+            return $http.post("/" + "oneTeacher", newTeacher);
         }
         api.getTeacherByUserName = function (userName) {              //check route
             return $http.get(url + "/" + "teacher/" + userName);

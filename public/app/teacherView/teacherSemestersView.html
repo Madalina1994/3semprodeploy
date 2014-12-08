@@ -1,0 +1,24 @@
+<body>
+<h1> {{ title }}</h1>
+<h4>{{error}}</h4>
+
+<table class="table">
+    <thead>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Start time</th>
+    <th>End time</th>
+    </thead>
+    <tbody>
+    <tr ng-repeat="semester in semesters">
+        <th><a href="#/teacher/viewPeriods/{{semester._id}}">{{semester.name}}</a></th>
+        <th>{{semester.requiredPoints}}</th>
+        <th>{{semester.startTime}}</th>
+        <th>{{semester.endTime}}</th>
+    </tr>
+    </tbody>
+</table>
+
+
+<a href="#/teacher"> back </a>
+</body>

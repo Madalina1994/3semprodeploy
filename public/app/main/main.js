@@ -9,6 +9,24 @@ angular.module('myAppRename.main', ['ngRoute'])
   });
 }])
 
-.controller('mainCtrl', function($scope) {
+.controller('mainCtrl', ['$scope','TeachersFactory',  '$http', function($scope, TeachersFactory, $http) {
       $scope.message = 'mainCtrl';
-    });
+
+
+
+        $scope.submitUser=function() {
+            TeachersFactory.addTeacher($scope.person)
+                //$http({
+                //    method: 'POST',
+                //    url: '/oneTeacher'
+                //})
+                //.post('/oneTeacher', $scope.person)
+
+                .success(function (data, status, headers, config) {
+                    $scope.person = data;
+                })
+                .error(function (data, status, headers, config) {
+                    $scope.error = data;
+                });
+        };
+    }]);

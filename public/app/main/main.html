@@ -1,3 +1,34 @@
+
+
+<body>
+<h1> {{ title }}</h1>
+<br><br><br>
+<div align="center" >
+  <form >
+
+    <label for="uN">User name:</label>
+    <input type="text" ng-model="person.username" id="uN"><br>
+
+
+    <label for="fN">Full name:</label>
+    <input type="text" ng-model="person.fullName" id="fN"><br>
+
+    <label for="d">Degree:</label>
+    <input type="text" ng-model="person.degree" id="d"><br>
+
+
+    <label for="rN">Role name:</label>
+    <input type="text" ng-model="person.roleName" id="rN"><br>
+
+    <label for="pW">Password:</label>
+    <input type="password" ng-model="person.password" id="pW"><br>
+
+    <button ng-click="submitUser()">Submit</button>
+  </form>
+</div>
+</body>
+
+
 <p style="margin-top: 10px;color:#105cb6;font-weight: bold">This seed shows a "typical" layout for an application that requires authentication and use
   roles to distinguish
   between what logged on users can do.</p>

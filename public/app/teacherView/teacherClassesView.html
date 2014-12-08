@@ -11,7 +11,7 @@
     </thead>
     <tbody>
     <tr ng-repeat="class in classes">
-        <th>{{class.name}}</th>
+        <th><a href="#/teacher/viewSemesters/{{class._id}}">{{class.name}}</a></th>
         <th>{{class.description}}</th>
         <th>{{class.startTime}}</th>
         <th>{{class.endTime}}</th>
@@ -20,5 +20,5 @@
 </table>
 
 
-<ul><li><a href="#/teacher"> back </a></li></ul>
+<a href="#/teacher"> back </a>
 </body>

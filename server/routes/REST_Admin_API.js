@@ -10,6 +10,8 @@ var Student = require('../model/studentsFacade');
 var Semester = require('../model/semestersFacade');
 var Task = require('../model/tasksFacade');
 var CompletedTasks = require('../model/completedTasksFacade');
+var httpPost= require('./connectToJPA');
+var bcrypt= require('../../node_modules/bcryptjs');
 
 function isDbRunning() {
     if (typeof global.mongo_error !== "undefined") {
@@ -19,7 +21,7 @@ function isDbRunning() {
     }
     return true;
 }
-
+/*
 router.post('/oneTeacher', function (req, res) {
     if (!isDbRunning()) {
         return;
@@ -36,7 +38,7 @@ router.post('/oneTeacher', function (req, res) {
         res.end(JSON.stringify(teacherNew));
     });
 
-});
+});*/
 
 router.post('/oneStudent', function (req, res) {  //needs a class in the database
     if (!isDbRunning()) {
@@ -358,7 +360,7 @@ router.get('/allStudentsByClass/:classId', function(req, res) {
         res.header("Content-type", "application/json");
         res.end(JSON.stringify(allStudentsByClass));
     });
-});
+}); */
 router.get('/allSemestersByClass/:classId', function(req, res) {
     if(!isDbRunning()) {
         return;
@@ -373,7 +375,7 @@ router.get('/allSemestersByClass/:classId', function(req, res) {
         res.end(JSON.stringify(semestersByClassId));
     });
 });
-router.get('/teacher/:userName', function (req, res) {
+/*router.get('/teacher/:userName', function (req, res) {
     if(!isDbRunning()) {
         return;
     }
@@ -402,5 +404,59 @@ router.get('/student/:userName', function (req, res) {
     });
 });
 */
+
+//router.post('/oneTeacher/', function (req, res) {
+//    if (!isDbRunning()) {
+//        return;
+//    }
+//    var newTeacher = req.body;
+//    var pwd = req.body.password;
+//    console.log(pwd);
+//    var user = req.body.username;
+//    var role = req.body.roleName;
+//
+//    bcrypt.genSalt(10, function (err, salt) {
+//        bcrypt.hash(pwd, salt, function (err, hash) {
+//            // Store hash in your password DB.
+//            if (err) {
+//
+//            }
+//            httpPost.httpPost(user, hash, role, function (err, data) {
+//                console.log("error: " + err);
+//                console.log('pwd:' + hash);
+//                console.log("data: " + JSON.stringify(data));
+//                var toPost = {
+//                    "username": user,
+//                    "password": hash,
+//                    "roleName": role
+//                };
+//                var post_data = JSON.stringify(toPost);
+//                console.log(post_data);
+//                if (err) {
+//                    res.status(err.status || 400);
+//                    res.end(JSON.stringify({error: err.toString()}));
+//                    return;
+//                }
+//                Teacher.addTeacher(newTeacher, function (err, teacherNew) {
+//                    if (err) {
+//                        res.status(err.status || 400);
+//                        res.end(JSON.stringify({error: err.toString()}));
+//                        return;
+//                    }
+//                    res.header("Content-type", "application/json");
+//                    res.end(JSON.stringify(teacherNew));
+//
+//
+//                    //res.header("Content-type", "application/json");
+//                    res.end(JSON.stringify(post_data));
+//                }); });
+//        });
+//    });
+//
+//
+//
+//});
+
+
 
 module.exports = router;

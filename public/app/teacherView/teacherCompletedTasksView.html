@@ -1,0 +1,23 @@
+<body>
+<h1> {{ title }}</h1>
+<h4>{{error}}</h4>
+
+<table class="table">
+    <thead>
+    <th>Received points</th>
+    <th>Comment</th>
+    <th>Task id</th>
+    <th>Student id</th>
+    </thead>
+    <tbody>
+    <tr ng-repeat="completedTask in completedTasks">
+        <th>{{completedTask.receivedPoints}}</a></th>
+        <th>{{completedTask.comment}}</th>
+        <th>{{completedTask.taskId}}</th>
+        <th>{{completedTask.studentId}}</th>
+    </tr>
+    </tbody>
+</table>
+
+<a href="#/teacher"> back </a>
+</body>
