@@ -1,0 +1,17 @@
+<body>
+<h1> {{ title }}</h1>
+<h4>{{error}}</h4>
+
+<table class="table">
+    <thead >
+    <th ng-repeat="task in tasks">{{task.name}}</th>
+    </thead>
+    <tbody>
+    <tr ng-repeat="student in students">
+        <th>{{ student.name }}</th>
+    </tr>
+    </tbody>
+</table>
+
+<a href="#/teacher"> back </a>
+</body>

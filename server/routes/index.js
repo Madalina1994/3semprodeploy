@@ -59,9 +59,9 @@ router.post('/authenticate/', function (req, res) {
             res.end(JSON.stringify({error: err.toString()}));
             return;
         }
-        hash1 = (data.toString());
+        hash1 = JSON.parse(data);
         // Load password hash from DB
-        if (!data===null  ) {
+        //if (!data===null  ) {
 
             //console.log(data);
 
@@ -86,10 +86,10 @@ router.post('/authenticate/', function (req, res) {
                 }
                 ;
             })
-        }
-        else{
+        //}
+     /*   else{
             res.status(404).send(err);
-        }
+        }*/
         //};
     });
 

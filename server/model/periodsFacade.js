@@ -12,7 +12,7 @@ function getAllPeriodsBySemesterId(semesterId, callback) {
 }
 
 function getPeriodById(periodId, callback) {
-    Period.find({periodId: periodId}, function (err, newPeriod) {
+    Period.findById(periodId, function (err, newPeriod) {
         if (err) {
             return callback (err);
         }

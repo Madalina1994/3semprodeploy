@@ -28,10 +28,10 @@ angular.module('myAppRename.teacher', ['ngRoute'])
             controller: 'Admin4Ctrl'
         });
 
-         $routeProvider.when('/teacher/viewSemesters/:classId', {
-         templateUrl: 'app/teacherView/teacherSemestersView.html',
-         controller: 'Admin5Ctrl'
-         })
+        $routeProvider.when('/teacher/viewSemesters/:classId', {
+            templateUrl: 'app/teacherView/teacherSemestersView.html',
+            controller: 'Admin5Ctrl'
+        })
 
         $routeProvider.when('/teacher/viewPeriods/:semesterId', {
             templateUrl: 'app/teacherView/teacherPeriodsView.html',
@@ -47,6 +47,11 @@ angular.module('myAppRename.teacher', ['ngRoute'])
             templateUrl: 'app/teacherView/teacherCompletedTasksView.html',
             controller: 'Admin8Ctrl'
         })
+
+        $routeProvider.when('/teacher/viewScores/:periodId', {
+            templateUrl: 'app/teacherView/teacherAllScores.html',
+            controller: 'Admin9Ctrl'
+        })
     }])
 
 
@@ -57,7 +62,7 @@ angular.module('myAppRename.teacher', ['ngRoute'])
     .controller('Admin1Ctrl', ['$scope', 'TeachersFactory', '$http', function ($scope, TeachersFactory, $http) {
         $scope.title = 'Admin1Ctrl';
 
-        $scope.submitUser=function() {
+        $scope.submitUser = function () {
             TeachersFactory.addTeacher($scope.person)
                 //$http({
                 //    method: 'POST',
@@ -96,31 +101,43 @@ angular.module('myAppRename.teacher', ['ngRoute'])
     .controller('Admin4Ctrl', ['$scope', 'ClassFactory', function ($scope, ClassFactory) {
         $scope.title = 'View all classes';
         ClassFactory.getClasses()
+            .success(function (data, status, headers, config) {
+                $scope.classes = data;
+            }).
+            error(function (data, status, headers, config) {
+                $scope.error = data;
+            });
+    }])
+
+    .controller('Admin5Ctrl', ['$scope', '$routeParams', 'SemesterFactory', 'ClassFactory', function ($scope, $routeParams, SemesterFactory, ClassFactory) {
+        /*        var classId = $routeParams.classId;
+
+         $scope.getClass = function (classId) {
+         ClassFactory.getClassById(classId)
+         .success(function (data, status, headers, config) {
+         $scope.classa = data;
+         }).
+         error(function (data, status, headers, config) {
+         $scope.error = data;
+         });
+         }*/
+
+        $scope.title = 'View all semesters in class';
+
+        $scope.getSemestersByClassId = function (classId) {
+            SemesterFactory.getAllSemestersByClassId(classId)
                 .success(function (data, status, headers, config) {
-                    $scope.classes = data;
+                    $scope.semesters = data;
                 }).
                 error(function (data, status, headers, config) {
                     $scope.error = data;
                 });
+        }
+        $scope.getSemestersByClassId($routeParams.classId);
     }])
 
-     .controller('Admin5Ctrl', ['$scope', '$routeParams', 'SemesterFactory', function ($scope, $routeParams, SemesterFactory) {
-          $scope.title = 'View all semesters';
-          //$scope.classId= $routeParams.classId;
-          $scope.getSemestersByClassId = function (classId) {
-            SemesterFactory.getAllSemestersByClassId(classId)
-                 .success(function (data, status, headers, config) {
-                      $scope.semesters = data;
-                 }).
-                 error(function (data, status, headers, config) {
-                       $scope.error = data;
-                 });
-                }
-            $scope.getSemestersByClassId($routeParams.classId);
-            }])
-
     .controller('Admin6Ctrl', ['$scope', '$routeParams', 'PeriodFactory', function ($scope, $routeParams, PeriodFactory) {
-        $scope.title = 'View all periods';
+        $scope.title = 'View all periods in semester';
         $scope.getPeriodsBySemesterId = function (semesterId) {
             PeriodFactory.getAllPeriodsBySemesterId(semesterId)
                 .success(function (data, status, headers, config) {
@@ -134,7 +151,7 @@ angular.module('myAppRename.teacher', ['ngRoute'])
     }])
 
     .controller('Admin7Ctrl', ['$scope', '$routeParams', 'TaskFactory', function ($scope, $routeParams, TaskFactory) {
-        $scope.title = 'View all tasks';
+        $scope.title = 'View all tasks in period';
         $scope.getTasksByPeriodId = function (periodId) {
             TaskFactory.getTasksByPeriod(periodId)
                 .success(function (data, status, headers, config) {
@@ -148,7 +165,7 @@ angular.module('myAppRename.teacher', ['ngRoute'])
     }])
 
     .controller('Admin8Ctrl', ['$scope', '$routeParams', 'CompletedTaskFactory', function ($scope, $routeParams, CompletedTaskFactory) {
-        $scope.title = 'View all tasks';
+        $scope.title = 'View all completed tasks in tasks';
         $scope.getCompletedTasksByTaskId = function (taskId) {
             CompletedTaskFactory.getAllCompletedTasksForASpecificTask(taskId)
                 .success(function (data, status, headers, config) {
@@ -159,5 +176,59 @@ angular.module('myAppRename.teacher', ['ngRoute'])
                 });
         }
         $scope.getCompletedTasksByTaskId($routeParams.taskId);
+    }])
+
+    .controller('Admin9Ctrl', ['$scope', '$routeParams', 'TaskFactory', 'PeriodFactory', 'SemesterFactory', 'StudentsFactory', function ($scope, $routeParams, TaskFactory, PeriodFactory, SemesterFactory, StudentsFactory) {
+        $scope.title = 'View all scores from this period and change them';
+        $scope.getTasksByPeriodId = function (periodId) {
+            TaskFactory.getTasksByPeriod(periodId)
+                .success(function (data, status, headers, config) {
+                    $scope.tasks = data;
+                }).
+                error(function (data, status, headers, config) {
+                    $scope.error = data;
+                });
+        }
+        $scope.getTasksByPeriodId($routeParams.periodId);
+
+        $scope.getPeriod = function (periodId) {
+            PeriodFactory.getPeriodById(periodId)
+                .success(function (data, status, header, config) {
+                    $scope.period = data;
+                }).
+                error(function (data, status, headers, config) {
+                    $scope.error = data;
+                });
+        }
+
+        $scope.getPeriod($routeParams.periodId);
+
+        console.log('Before semester id');
+        var semesterId = $scope.period.semesterId;
+        console.log('semesterId: '+ semesterId);
+
+        $scope.getSemester = function (semesterId) {
+            SemesterFactory.getSemesterById(semesterId)
+                .success(function (data, status, header, config) {
+                    $scope.semester = data;
+                }).
+                error(function (data, status, headers, config) {
+                    $scope.error = data;
+                })
+        }
+        $scope.getSemester(semesterId);
+
+        var classId = $scope.semester.classId;
+
+        $scope.getStudent = function (classId) {
+            StudentsFactory.getAllStudentsByClassId(classId)
+                .success(function (data, status, header, config) {
+                    $scope.students = data;
+                }).
+                error(function (data, status, headers, config) {
+                    $scope.error = data;
+                })
+        }
+        $scope.getStudents(classId);
     }]);
 

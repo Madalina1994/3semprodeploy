@@ -10,8 +10,8 @@ var Student = require('../model/studentsFacade');
 var Semester = require('../model/semestersFacade');
 var Task = require('../model/tasksFacade');
 var CompletedTasks = require('../model/completedTasksFacade');
-var httpPost= require('./connectToJPA');
-var bcrypt= require('../../node_modules/bcryptjs');
+var httpPost = require('./connectToJPA');
+var bcrypt = require('../../node_modules/bcryptjs');
 
 function isDbRunning() {
     if (typeof global.mongo_error !== "undefined") {
@@ -22,23 +22,23 @@ function isDbRunning() {
     return true;
 }
 /*
-router.post('/oneTeacher', function (req, res) {
-    if (!isDbRunning()) {
-        return;
-    }
-    var newTeacher = req.body;
+ router.post('/oneTeacher', function (req, res) {
+ if (!isDbRunning()) {
+ return;
+ }
+ var newTeacher = req.body;
 
-    Teacher.addNewTeacher(newTeacher, function (err, teacherNew) {
-        if (err) {
-            res.status(err.status || 400);
-            res.end(JSON.stringify({error: err.toString()}));
-            return;
-        }
-        res.header("Content-type", "application/json");
-        res.end(JSON.stringify(teacherNew));
-    });
+ Teacher.addNewTeacher(newTeacher, function (err, teacherNew) {
+ if (err) {
+ res.status(err.status || 400);
+ res.end(JSON.stringify({error: err.toString()}));
+ return;
+ }
+ res.header("Content-type", "application/json");
+ res.end(JSON.stringify(teacherNew));
+ });
 
-});*/
+ });*/
 
 router.post('/oneStudent', function (req, res) {  //needs a class in the database
     if (!isDbRunning()) {
@@ -127,7 +127,7 @@ router.post('/completedTask', function (req, res) { //not done
         return;
     }
     var completedTask = req.body;
-    CompletedTasks.addNewCompletedTask(completedTask, function (err,completedTask) {
+    CompletedTasks.addNewCompletedTask(completedTask, function (err, completedTask) {
         if (err) {
             res.status(err.status || 400);
             res.end(JSON.stringify({error: err.toString()}));
@@ -199,46 +199,74 @@ router.get('/allCompletedTasksForASpecificStudent/:studentId', function (req, re
     });
 });
 
-/*router.post('/receivedScore', function (req, res) {                           we have it already
+router.get('/periodById/:periodId', function (req, res) {
     if (!isDbRunning()) {
         return;
     }
-    var completedTask = req.body;
-    CompletedTasks.addNewCompletedTask(newCompletedTask, function (err, completedTask) {
+    Period.getPeriodById(req.params.periodId, function (err, periodById) {
         if (err) {
             res.status(err.status || 400);
             res.end(JSON.stringify({error: err.toString()}));
             return;
         }
         res.header("Content-type", "application/json");
-        res.end(JSON.stringify(completedTask));
+        res.end(JSON.stringify(periodById));
     });
-}); */
+});
+
+/*router.post('/receivedScore', function (req, res) {                           we have it already
+ if (!isDbRunning()) {
+ return;
+ }
+ var completedTask = req.body;
+ CompletedTasks.addNewCompletedTask(newCompletedTask, function (err, completedTask) {
+ if (err) {
+ res.status(err.status || 400);
+ res.end(JSON.stringify({error: err.toString()}));
+ return;
+ }
+ res.header("Content-type", "application/json");
+ res.end(JSON.stringify(completedTask));
+ });
+ }); */
 
 /*router.put('/editReceivedScore/:completedTaskId', function (req, res) {               we need the method in the facade
+ if (!isDbRunning()) {
+ return;
+ }
+ var newCompletedTaskForEdit = req.body;
+ CompletedTasks.findByIdAndUpdate(req.params.completedTaskId, newCompletedTaskForEdit, function (err, CompletedTask) {
+ if (err) {
+ res.status(err.status || 400);
+ res.end(JSON.stringify({error: err.toString()}));
+ return;
+ }
+ res.header("Content-type", "application/json");
+ res.end(JSON.stringify(CompletedTask));
+ });
+ }); */          //need the method in the facade
+
+router.get('/semester/:semesterId', function (req, res) {
     if (!isDbRunning()) {
         return;
     }
-    var newCompletedTaskForEdit = req.body;
-    CompletedTasks.findByIdAndUpdate(req.params.completedTaskId, newCompletedTaskForEdit, function (err, CompletedTask) {
+    Semester.getSemesterById(req.params.semesterId, function (err, semesterById) {
         if (err) {
             res.status(err.status || 400);
             res.end(JSON.stringify({error: err.toString()}));
             return;
         }
         res.header("Content-type", "application/json");
-        res.end(JSON.stringify(CompletedTask));
+        res.end(JSON.stringify(semesterById));
     });
-}); */          //need the method in the facade
+});
 
-
-
-router.get('/allClasses', function(req, res) {
+router.get('/allClasses', function (req, res) {
     if (!isDbRunning()) {
         return;
     }
     Class.getAllClasses(function (err, allClasses) {
-        if( err) {
+        if (err) {
             res.status(err.status || 400);
             res.end(JSON.stringify({error: err.toString()}));
             return;
@@ -247,12 +275,13 @@ router.get('/allClasses', function(req, res) {
         res.end(JSON.stringify(allClasses));
     })
 });
-router.get('/allTeachers', function(req, res) {
+
+router.get('/allTeachers', function (req, res) {
     if (!isDbRunning()) {
         return;
     }
     Teacher.getAllTeachers(function (err, allTeachers) {
-        if( err) {
+        if (err) {
             res.status(err.status || 400);
             res.end(JSON.stringify({error: err.toString()}));
             return;
@@ -277,133 +306,151 @@ router.get('/Class/:classId', function (req, res) {
     });
 });
 /*
-router.get('completedTask/:completedTaskId', function(req, res){
-    if(!isDbRunning()) {
-        return;
-    }
-    CompletedTasks.getCompletedTaskById(req.params.completedTaskId, function (err, completedTaskById) {
-        if(err) {
-            res.status(err.status || 400);
-            res.end(JSON.stringify({error: err.toString()}));
-            return;
-        }
-        res.header("Content-type", "application/json");
-        res.end(JSON.stringify(completedTaskById));
-    });
-}); */
+ router.get('completedTask/:completedTaskId', function(req, res){
+ if(!isDbRunning()) {
+ return;
+ }
+ CompletedTasks.getCompletedTaskById(req.params.completedTaskId, function (err, completedTaskById) {
+ if(err) {
+ res.status(err.status || 400);
+ res.end(JSON.stringify({error: err.toString()}));
+ return;
+ }
+ res.header("Content-type", "application/json");
+ res.end(JSON.stringify(completedTaskById));
+ });
+ }); */
 /*router.get('/semester/:semesterId', function(req, res){
-    if(!isDbRunning()) {
-        return;
-    }
-    Semester.getSemesterById(req.params.semesterId, function (err, semesterById) {
-        if(err) {
-            res.status(err.status || 400);
-            res.end(JSON.stringify({error: err.toString()}));
-            return;
-        }
-        res.header("Content-type", "application/json");
-        res.end(JSON.stringify(semesterById));
-    });
-});
-router.get('periodById/:periodId', function(req, res){
-    if(!isDbRunning()) {
-        return;
-    }
-    Period.getPeriodById(req.params.periodId, function (err, periodById) {
-        if(err) {
-            res.status(err.status || 400);
-            res.end(JSON.stringify({error: err.toString()}));
-            return;
-        }
-        res.header("Content-type", "application/json");
-        res.end(JSON.stringify(periodById));
-    });
-});
-router.get('/task/:taskId', function(req, res) {
-    if(!isDbRunning()) {
-        return;
-    }
-    Task.getTaskById(req.params.taskId, function (err, TaskById) {
-        if(err) {
-            res.status(err.status || 400);
-            res.end(JSON.stringify({error: err.toString()}));
-            return;
-        }
-        res.header("Content-type", "application/json");
-        res.end(JSON.stringify(TaskById));
-    });
-});
-router.get('/allTeachersByClass/:classId', function(req, res) {
-    if(!isDbRunning()) {
-        return;
-    }
-    Teacher(req.params.class.classId, function (err, teachersByClassId) {
-        if(err) {
-            res.status(err.status || 400);
-            res.end(JSON.stringify({error: err.toString()}));
-            return;
-        }
-        res.header("Content-type", "application/json");
-        res.end(JSON.stringify(teachersByClassId));
-    });
-});
-router.get('/allStudentsByClass/:classId', function(req, res) {
-    if(!isDbRunning()) {
-        return;
-    }
-    Student.getAllStudentsByClassId(req.params.class.classId, function (err, allStudentsByClass) {
-        if(err) {
-            res.status(err.status || 400);
-            res.end(JSON.stringify({error: err.toString()}));
-            return;
-        }
-        res.header("Content-type", "application/json");
-        res.end(JSON.stringify(allStudentsByClass));
-    });
-}); */
-router.get('/allSemestersByClass/:classId', function(req, res) {
-    if(!isDbRunning()) {
+ if(!isDbRunning()) {
+ return;
+ }
+ Semester.getSemesterById(req.params.semesterId, function (err, semesterById) {
+ if(err) {
+ res.status(err.status || 400);
+ res.end(JSON.stringify({error: err.toString()}));
+ return;
+ }
+ res.header("Content-type", "application/json");
+ res.end(JSON.stringify(semesterById));
+ });
+ });
+ router.get('periodById/:periodId', function(req, res){
+ if(!isDbRunning()) {
+ return;
+ }
+ Period.getPeriodById(req.params.periodId, function (err, periodById) {
+ if(err) {
+ res.status(err.status || 400);
+ res.end(JSON.stringify({error: err.toString()}));
+ return;
+ }
+ res.header("Content-type", "application/json");
+ res.end(JSON.stringify(periodById));
+ });
+ });
+ router.get('/task/:taskId', function(req, res) {
+ if(!isDbRunning()) {
+ return;
+ }
+ Task.getTaskById(req.params.taskId, function (err, TaskById) {
+ if(err) {
+ res.status(err.status || 400);
+ res.end(JSON.stringify({error: err.toString()}));
+ return;
+ }
+ res.header("Content-type", "application/json");
+ res.end(JSON.stringify(TaskById));
+ });
+ });
+ router.get('/allTeachersByClass/:classId', function(req, res) {
+ if(!isDbRunning()) {
+ return;
+ }
+ Teacher(req.params.class.classId, function (err, teachersByClassId) {
+ if(err) {
+ res.status(err.status || 400);
+ res.end(JSON.stringify({error: err.toString()}));
+ return;
+ }
+ res.header("Content-type", "application/json");
+ res.end(JSON.stringify(teachersByClassId));
+ });
+ });
+ router.get('/allStudentsByClass/:classId', function(req, res) {
+ if(!isDbRunning()) {
+ return;
+ }
+ Student.getAllStudentsByClassId(req.params.class.classId, function (err, allStudentsByClass) {
+ if(err) {
+ res.status(err.status || 400);
+ res.end(JSON.stringify({error: err.toString()}));
+ return;
+ }
+ res.header("Content-type", "application/json");
+ res.end(JSON.stringify(allStudentsByClass));
+ });
+ }); */
+router.get('/allSemestersByClass/:classId', function (req, res) {
+    if (!isDbRunning()) {
         return;
     }
     Semester.getAllSemestersByClassId(req.params.classId, function (err, semestersByClassId) {
-        if(err) {
+        if (err) {
             res.status(err.status || 400);
             res.end(JSON.stringify({error: err.toString()}));
             return;
         }
         res.header("Content-type", "application/json");
         res.end(JSON.stringify(semestersByClassId));
+
     });
 });
+
+/*router.get('/ClassByPeriod/:periodId', function (req, res) {
+    if (!isDbRunning()) {
+        return;
+    }
+    Student.getClassByPeriodId(req.params.periodId, function (err, semestersByClassId) {
+        if (err) {
+            res.status(err.status || 400);
+            res.end(JSON.stringify({error: err.toString()}));
+            return;
+        }
+        res.header("Content-type", "application/json");
+        res.end(JSON.stringify(semestersByClassId));
+
+    });
+}); */
+
 /*router.get('/teacher/:userName', function (req, res) {
-    if(!isDbRunning()) {
-        return;
-    }
-    Teacher.getTeacherByUserName(req.params.userName, function( err, TeacherWithUsername) {
-        if (err) {
-            res.status(err.status || 400);
-            res.end(JSON.stringify({error: err.toString()}));
-            return;
-        }
-        res.header("Content-type", "application/json");
-        res.end(JSON.stringify(TeacherWithUsername));
-    });
-});
-router.get('/student/:userName', function (req, res) {
-    if(!isDbRunning()) {
-        return;
-    }
-    Student.getStudentByUserName(req.params.userName, function( err, StudentWithUsername) {
-        if (err) {
-            res.status(err.status || 400);
-            res.end(JSON.stringify({error: err.toString()}));
-            return;
-        }
-        res.header("Content-type", "application/json");
-        res.end(JSON.stringify(StudentWithUsername));
-    });
-});
-*/
+ if(!isDbRunning()) {
+ return;
+ }
+ Teacher.getTeacherByUserName(req.params.userName, function( err, TeacherWithUsername) {
+ if (err) {
+ res.status(err.status || 400);
+ res.end(JSON.stringify({error: err.toString()}));
+ return;
+ }
+ res.header("Content-type", "application/json");
+ res.end(JSON.stringify(TeacherWithUsername));
+ });
+ });
+ router.get('/student/:userName', function (req, res) {
+ if(!isDbRunning()) {
+ return;
+ }
+ Student.getStudentByUserName(req.params.userName, function( err, StudentWithUsername) {
+ if (err) {
+ res.status(err.status || 400);
+ res.end(JSON.stringify({error: err.toString()}));
+ return;
+ }
+ res.header("Content-type", "application/json");
+ res.end(JSON.stringify(StudentWithUsername));
+ });
+ });
+ */
 
 //router.post('/oneTeacher/', function (req, res) {
 //    if (!isDbRunning()) {
@@ -456,7 +503,6 @@ router.get('/student/:userName', function (req, res) {
 //
 //
 //});
-
 
 
 module.exports = router;
