@@ -12,7 +12,7 @@ function getAllClasses(callback) {
 }
 
 function getClassById(classId, callback) {
-    Class.find({_id: classId}, function (err, classById) {
+    Class.findById(classId, function (err, classById) {
         if (err) {
             return callback(err);
         }

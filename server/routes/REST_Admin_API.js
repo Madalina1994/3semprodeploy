@@ -305,9 +305,24 @@ router.get('/Class/:classId', function (req, res) {
         res.end(JSON.stringify(classById));
     });
 });
-/*
- router.get('completedTask/:completedTaskId', function(req, res){
- if(!isDbRunning()) {
+
+router.get('/task/:taskId', function(req, res) {
+    if (!isDbRunning()) {
+        return;
+    }
+    Task.getTaskById(req.params.taskId, function (err, TaskById) {
+        if (err) {
+            res.status(err.status || 400);
+            res.end(JSON.stringify({error: err.toString()}));
+            return;
+        }
+        res.header("Content-type", "application/json");
+        res.end(JSON.stringify(TaskById));
+    });
+});
+
+/* router.get('completedTask/:completedTaskId', function(req, res){
+    if(!isDbRunning()) {
  return;
  }
  CompletedTasks.getCompletedTaskById(req.params.completedTaskId, function (err, completedTaskById) {
@@ -347,22 +362,8 @@ router.get('/Class/:classId', function (req, res) {
  res.header("Content-type", "application/json");
  res.end(JSON.stringify(periodById));
  });
- });
- router.get('/task/:taskId', function(req, res) {
- if(!isDbRunning()) {
- return;
- }
- Task.getTaskById(req.params.taskId, function (err, TaskById) {
- if(err) {
- res.status(err.status || 400);
- res.end(JSON.stringify({error: err.toString()}));
- return;
- }
- res.header("Content-type", "application/json");
- res.end(JSON.stringify(TaskById));
- });
- });
- router.get('/allTeachersByClass/:classId', function(req, res) {
+ }); */
+ /*router.get('/allTeachersByClass/:classId', function(req, res) {
  if(!isDbRunning()) {
  return;
  }

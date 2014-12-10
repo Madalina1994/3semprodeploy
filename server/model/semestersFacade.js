@@ -21,7 +21,7 @@ function getAllSemestersByClassId(classId, callback) {
 }
 
 function getSemesterById(semesterId, callback) {
-    Semester.find({semesterId: semesterId}, function (err, semesterId) {
+    Semester.findById(semesterId, function (err, semesterId) {
         if(err) {
             return callback(err);
         }

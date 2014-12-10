@@ -136,11 +136,13 @@ router.post('/oneTeacher', function (req, res) {
                         return;
                     }
                     res.header("Content-type", "application/json");
-                    res.end(JSON.stringify(teacherNew));
+                    var result={mongo:teacherNew,jpa:post_data}
+
+                    res.end(JSON.stringify(result));
 
 
                     //res.header("Content-type", "application/json");
-                    res.end(JSON.stringify(post_data));
+                    //res.end(JSON.stringify(post_data));
                 }); });
         });
     });

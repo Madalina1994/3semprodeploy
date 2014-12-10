@@ -12,7 +12,7 @@ function addNewTask(newTask, callback) {
 }
 
 function getTaskById (taskId, callback) {
-    Task.find({taskId: taskId}, function (err, taskById) {
+    Task.findById(taskId, function (err, taskById) {
         if (err) {
             return callback (err);
         }
