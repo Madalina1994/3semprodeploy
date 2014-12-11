@@ -36,6 +36,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../public/app')));
 
+app.get('/testing', function(req, res) {
+  res.send('Ok');
+});
+
 app.use('/', routes);
 app.use('/adminApi', adminRest);
 app.use('/userApi', userRest);
